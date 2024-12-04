@@ -7,17 +7,17 @@ return {
           event = "notify",
           find = "No information available",
         },
-        opts = { skip = true }
+        opts = { skip = true },
       })
 
       opts.presets.lsp_doc_border = true
-    end
+    end,
   },
   {
     "rcarriga/nvim-notify",
     opts = {
       timeout = 10000,
-    }
+    },
   },
   {
     "b0o/incline.nvim",
@@ -26,7 +26,7 @@ return {
     priority = 1200,
     config = function()
       local colors = require("solarized-osaka.colors").setup()
-      require('incline').setup({
+      require("incline").setup({
         highlight = {
           groups = {
             InclineNormal = { guibg = colors.magenta500, guifg = colors.base04 },
@@ -35,7 +35,7 @@ return {
         },
         window = { margin = { vertical = 0, horizontal = 1 } },
         hide = {
-          cursorline = true
+          cursorline = true,
         },
         render = function(props)
           local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
@@ -43,11 +43,11 @@ return {
             filename = "[+]" .. filename
           end
 
-          local icon, color = require('nvim-web-devicons').get_icon_color(filename)
+          local icon, color = require("nvim-web-devicons").get_icon_color(filename)
           return { { icon, guifg = color }, { " " }, { filename } }
-        end
+        end,
       })
-    end
+    end,
   },
   -- {
   --   "akinsho/bufferline.nvim",
@@ -74,7 +74,7 @@ return {
   },
   {
     "nvimdev/dashboard-nvim",
-    event = "VimEnter",
+    lazy = false,
     opts = function(_, opts)
       local logo = [[
         ██████╗  █████╗ ██╗     ██╗  ██╗ █████╗ ██╗   ██╗    ██████╗ ███████╗██╗   ██╗
@@ -87,6 +87,7 @@ return {
 
       logo = string.rep("\n", 8) .. logo .. "\n\n"
       opts.config.header = vim.split(logo, "\n")
-    end
-  }
+      opts.theme = "doom"
+    end,
+  },
 }

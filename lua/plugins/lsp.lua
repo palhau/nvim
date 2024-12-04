@@ -12,6 +12,6 @@ return {
         "typescript-language-server",
         "css-lsp",
       })
-    end
-  }
+    end,
+  },
 }

@@ -7,6 +7,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+-- add support for ejs file
+vim.cmd("autocmd BufNewFile,BufRead *.ejs set filetype=html")
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
@@ -14,8 +17,8 @@ require("lazy").setup({
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = "solarized-osaka",
-      }
+        colorscheme = "tokyonight",
+      },
     },
     -- import any extras modules here
     { import = "lazyvim.plugins.extras.linting.eslint" },
@@ -26,6 +29,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.yaml" },
     { import = "lazyvim.plugins.extras.lang.docker" },
     { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
+    { import = "lazyvim.plugins.extras.ui.dashboard-nvim" },
     -- import/override with your plugins
     { import = "plugins" },
   },
@@ -54,5 +58,19 @@ require("lazy").setup({
         "zipPlugin",
       },
     },
+  },
+  formatters = {
+    prettier = {
+      args = function(ctx)
+        if vim.endswith(ctx.filename, ".ejs") then
+          return { "--stdin-filepath", ctx.filename, "--parser", "html" }
+        end
+        return { "--stdin-filepath", ctx.filename }
+      end,
+    },
+  },
+  formatters_by_ft = {
+    html = { "prettier" }, -- Ensure HTML uses Prettier
+    ejs = { "prettier" }, -- Add EJS support
   },
 })
